@@ -14,6 +14,15 @@ public class DriftMovement : MonoBehaviour {
        
     }
 	
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.tag == "Player")
+        {
+            movement = direction * speed * Time.deltaTime;
+            other.transform.position += movement;
+        }
+    }
+
 	void Update () 
     {
         movement = direction * speed * Time.deltaTime;

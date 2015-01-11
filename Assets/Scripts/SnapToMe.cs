@@ -3,15 +3,13 @@
 [RequireComponent(typeof(BoxCollider2D))]
 public class SnapToMe : MonoBehaviour {
     
-    public float speed = 0.5f;
-    public Vector3 direction = -Vector3.right;
     public int NumberOfSegments = 5;
-    public BoxCollider2D target; 
+    BoxCollider2D target; 
 
     // Use this for initialization
 	void Start () 
     {
-
+        target = GetComponent<BoxCollider2D>();
 	}
 	
 	// Update is called once per frame
@@ -20,18 +18,14 @@ public class SnapToMe : MonoBehaviour {
 
 	}
 
-
     void OnTriggerEnter2D(Collider2D other)
     {
-        Vector3[] snapPoints = CalculateSnapPoints(NumberOfSegments, target);
-        Vector3 nearestSnapPoint = FindNearest(other.transform.position, snapPoints);
-        other.transform.position = nearestSnapPoint;
-    }
-
-    void OnTriggerStay2D(Collider2D other)
-    {
-        Vector3 movement = direction * speed * Time.deltaTime;
-        other.gameObject.transform.position += movement;
+        if (other.tag == "Player")
+        {
+            Vector3[] snapPoints = CalculateSnapPoints(NumberOfSegments, target);
+            Vector3 nearestSnapPoint = FindNearest(other.transform.position, snapPoints);
+            other.transform.position = nearestSnapPoint;
+        }
     }
 
     Vector3[] CalculateSnapPoints(int numberOfSegments, BoxCollider2D target)
